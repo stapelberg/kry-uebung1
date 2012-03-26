@@ -7,18 +7,18 @@
 
 using namespace std;
 
-static int euklid(int a, int b) {
+static const int euklid(const int a, const int b) {
     if (b == 0)
         return a;
     if (a == 0)
         return b;
-    int rest = (b % a);
+    const int rest = (b % a);
     if (rest == 0)
         return a;
     return euklid(rest, a);
 }
 
-long convert_or_die(char *input) {
+static long convert_or_die(char *input) {
     char *endptr = NULL;
     long converted = strtol(input, &endptr, 10);
     if (converted == LONG_MIN ||
