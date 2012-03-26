@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     int e = convert_or_die(argv[2]);
     int n = convert_or_die(argv[3]);
 
-    int sum = 1;
+    int product = 1;
 
     // Wir berechnen g^2 % n vor, weil wir es in jedem Schritt brauchen.
     int zw = (g * g) % n;
@@ -47,11 +47,11 @@ int main(int argc, char *argv[]) {
     // g^(2^i) bei denen e_i = 1 ist.
     for (int i = 0; i < 32; i++) {
         if (((e >> i) & 0x1) == 1) {
-            sum *= (npow(zw, i) % n);
+            product *= (npow(zw, i) % n);
         }
     }
 
-    cout << g << "^" << e << " % " << n << " = " << (sum % n) << endl;
+    cout << g << "^" << e << " % " << n << " = " << (product % n) << endl;
 
     return 0;
 }
