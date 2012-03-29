@@ -21,10 +21,12 @@ static long convert_or_die(char *input) {
 }
 
 // Wie pow(), aber für natürliche Zahlen.
-static const int npow(const int base, const int exponent) {
+static const int npow(const int base, const int exponent, const int mod) {
     int result = base;
-    for (int i = 0; i < exponent; i++)
+    for (int i = 0; i < exponent; i++) {
         result *= base;
+        result %= mod;
+    }
     return result;
 }
 
@@ -38,17 +40,24 @@ int main(int argc, char *argv[]) {
     int e = convert_or_die(argv[2]);
     int n = convert_or_die(argv[3]);
 
-    int product = 1;
+    long product = 1;
 
     // Wir berechnen g^2 % n vor, weil wir es in jedem Schritt brauchen.
-    int zw = (g * g) % n;
+    //int zw = (g * g) % n;
+    long faktor = g;
 
     // Wir betrachten den Exponent 'e' binär und bilden das Produkt aller
     // g^(2^i) bei denen e_i = 1 ist.
     for (int i = 0; i < 32; i++) {
+        cout << "faktor = " << faktor << endl;
         if (((e >> i) & 0x1) == 1) {
-            product *= (npow(zw, i) % n);
+            cout << "bit " << i << " gesetzt" << endl;
+            product *= faktor;
+            product %= n;
+            cout << "produkt = " << product << endl;
         }
+        faktor *= faktor;
+        faktor %= n;
     }
 
     cout << g << "^" << e << " % " << n << " = " << (product % n) << endl;
